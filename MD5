@@ -1,0 +1,16 @@
+2ddef4ed1abde91a27717053de37be5d *DESCRIPTION
+bab09150c4c555a926d897b081c49472 *NAMESPACE
+387ca72baecd26addd5cf03fa2184857 *R/hudr-package.R
+8f88adbecc7ba450bb5a297338db9d71 *R/hudr.R
+adb8382a3b845220a99da789a55496e1 *man/check_args.Rd
+625aa6ef48ce74a456d3c71338767f0b *man/get_fmrdata_info.Rd
+182f8350adf722029b218270f85d7294 *man/get_hud_fmr_data.Rd
+3579919837ffcef75ca608b21c99ea92 *man/get_hud_fmr_listcounties.Rd
+563e0c49e086bb0f0063c8980f61a069 *man/get_hud_fmr_listmetros.Rd
+9240c31a380976631c89f6539272b24d *man/get_hud_fmr_liststates.Rd
+7d7f0c5dc1ac1bf2ffb94f6864289f50 *man/get_hud_fmr_statedata.Rd
+084ff4e97b62ac9ac2d1e924cfba62f3 *man/get_hud_il_data.Rd
+1b62d5e0666a94e93930804a2edd8a47 *man/get_hud_il_statedata.Rd
+1d61f8aeb095d7ac61b10a6294453541 *man/get_ildata_info.Rd
+847023e6411f87cb6c71a4a4f2045411 *man/get_ilstatedata_info.Rd
+bc3b231c23ee87a9c7bf370e55912c87 *man/hudr-package.Rd
