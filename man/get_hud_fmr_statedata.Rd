@@ -4,12 +4,12 @@
 \alias{get_hud_fmr_statedata}
 \title{Get HUD Fair Market Rent data at the State Level from HUD.}
 \usage{
-get_hud_fmr_statedata(entityid = "AL", year, hud_key)
+get_hud_fmr_statedata(entityid = "AL", yr, hud_key)
 }
 \arguments{
 \item{entityid}{Character string containing the 'state_code' from get_hud_fmr_liststates(...).}
 
-\item{year}{Character string indicating the year.}
+\item{yr}{Character string indicating the year.}
 
 \item{hud_key}{Character string indicating your API key from HUD.}
 }
@@ -31,7 +31,7 @@ hud_key <- Sys.getenv("HUD_API_KEY")
 state_codes <- get_hud_fmr_liststates(hud_key = hud_key)
 
 fmr_state_dt <- get_hud_fmr_statedata(entityid = state_codes$state_code[1],
-                                      year = "2020",
+                                      yr = "2020",
                                       hud_key = hud_key)
 }
 }

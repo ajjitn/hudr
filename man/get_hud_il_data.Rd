@@ -4,12 +4,12 @@
 \alias{get_hud_il_data}
 \title{Get HUD Income Limit data at the County or MSA Level from HUD.}
 \usage{
-get_hud_il_data(entityid = "0100199999", year, hud_key)
+get_hud_il_data(entityid = "0100199999", yr, hud_key)
 }
 \arguments{
 \item{entityid}{Character string containing the 'fips_code' from get_hud_fmr_listcounties(...) or 'cbsa_code' from get_hud_fmr_listmetros(...).}
 
-\item{year}{Character string indicating the year.}
+\item{yr}{Character string indicating the year.}
 
 \item{hud_key}{Character string indicating your API key from HUD.}
 }
@@ -32,10 +32,10 @@ cbsa_codes <- get_hud_fmr_listmetros(hud_key = hud_key)
 cnty_codes <- get_hud_fmr_listcounties(hud_key = hud_key)
 
 il_msa_dt <- get_hud_il_data(entityid = cbsa_codes$cbsa_code[1],
-                             year = "2020",
+                             yr = "2020",
                              hud_key = hud_key)
 il_cnty_dt <- get_hud_il_data(entityid = cnty_codes$fips_code[1],
-                              year = "2020",
+                              yr = "2020",
                               hud_key = hud_key)
 }
 }
