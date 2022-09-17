@@ -4,7 +4,7 @@
 \alias{check_args}
 \title{check_args}
 \usage{
-check_args(pass, argument, label)
+check_args(argument)
 }
 \description{
 check_args

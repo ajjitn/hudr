@@ -4,15 +4,16 @@
 #' check_args
 #' @keywords internal
 #' @import data.table
-check_args <- function(pass, argument, label) {
+check_args <- function(argument) {
+  pass <- "PASS"
   if (any(!is.character(argument))) {
-    pass[] <- paste0(label, ": Must be a character.")
+    pass[1] <- "Must be a character."
   } else {
     if (any(is.na(argument))) {
-      pass[] <- paste0(label, ": Must be a character string specifying an ", label, ".")
+      pass[1] <- "Must not be NA"
     } else {
       if (length(argument) != 1) {
-        pass[] <- paste0(label, ": Must be of length 1.")
+        pass[1] <- "Must be of length 1"
       }
     }
   }
@@ -44,7 +45,7 @@ get_fmrdata_info <- function(X) {
 #' @name get_hud_fmr_data
 #' @param entityid Character string containing the 'fips_code' from get_hud_fmr_listcounties(...) or 'cbsa_code' from get_hud_fmr_listmetros(...).
 #' @param yr Character string indicating the year.
-#' @param hud_key Character string indicating your API key from HUD.
+#' @param hud_key Character string indicating your API key from HUD. Default is Sys.getenv("HUD_API_KEY").
 #' @details Provides fair market rent data at the County and MSA level from HUD.
 #' @return A list of data tables containing fair market rent data from HUD.
 #' @examples
@@ -63,13 +64,13 @@ get_fmrdata_info <- function(X) {
 #'                                 yr = "2020",
 #'                                 hud_key = hud_key)
 #' }
-get_hud_fmr_data <- function(entityid = "METRO10180M10180", yr, hud_key) {
-  pass <- "PASS"
-  pass[] <- check_args(pass = pass, argument = entityid, label = "entityid")
-  pass[] <- check_args(pass = pass, argument = yr, label = "yr")
-  if (pass != "PASS") {
-    stop(pass)
+get_hud_fmr_data <- function(entityid, yr, hud_key = Sys.getenv("HUD_API_KEY")) {
+  pass <- as.list(environment()) %>%
+    lapply(FUN = check_args)
+  if (any(pass != "PASS")) {
+    stop(paste0(names(pass)[which(pass != "PASS")], ": ", pass[which(pass != "PASS")]))
   }
+
   dta <- tryCatch(expr = {
     url <- paste0("https://www.huduser.gov/hudapi/public/fmr/data/", entityid, "?year=", yr)
     get_response <- httr::GET(url = url, config = add_headers("Authorization" = paste0("Bearer ", hud_key)))
@@ -82,7 +83,7 @@ get_hud_fmr_data <- function(entityid = "METRO10180M10180", yr, hud_key) {
     }
     get_content
   },
-  error = function(e) {c("Error in get_hud_fmr_data(...): No data returned. check arguments.")})
+  error = function(e) {c("Error in get_hud_fmr_data(...): No data returned. Check arguments.")})
   return(dta)
 }
 
@@ -95,7 +96,7 @@ get_hud_fmr_data <- function(entityid = "METRO10180M10180", yr, hud_key) {
 #' @name get_hud_fmr_statedata
 #' @param entityid Character string containing the 'state_code' from get_hud_fmr_liststates(...).
 #' @param yr Character string indicating the year.
-#' @param hud_key Character string indicating your API key from HUD.
+#' @param hud_key Character string indicating your API key from HUD. Default is Sys.getenv("HUD_API_KEY").
 #' @details Provides fair market rent data at the State level from HUD.
 #' @return A list of data tables containing fair market rent data from HUD.
 #' @examples
@@ -110,13 +111,13 @@ get_hud_fmr_data <- function(entityid = "METRO10180M10180", yr, hud_key) {
 #'                                       yr = "2020",
 #'                                       hud_key = hud_key)
 #' }
-get_hud_fmr_statedata <- function(entityid = "AL", yr, hud_key) {
-  pass <- "PASS"
-  pass[] <- check_args(pass = pass, argument = entityid, label = "entityid")
-  pass[] <- check_args(pass = pass, argument = yr, label = "year")
-  if (pass != "PASS") {
-    stop(pass)
+get_hud_fmr_statedata <- function(entityid, yr, hud_key = Sys.getenv("HUD_API_KEY")) {
+  pass <- as.list(environment()) %>%
+    lapply(FUN = check_args)
+  if (any(pass != "PASS")) {
+    stop(paste0(names(pass)[which(pass != "PASS")], ": ", pass[which(pass != "PASS")]))
   }
+
   dta <- tryCatch(expr = {
     url <- paste0("https://www.huduser.gov/hudapi/public/fmr/statedata/", entityid, "?year=", yr)
     get_response <- httr::GET(url = url, config = add_headers("Authorization" = paste0("Bearer ", hud_key)))
@@ -128,7 +129,7 @@ get_hud_fmr_statedata <- function(entityid = "AL", yr, hud_key) {
     }
     get_content
   },
-  error = function(e) {c("Error in get_hud_fmr_data(...): No data returned. check arguments.")})
+  error = function(e) {c("Error in get_hud_fmr_data(...): No data returned. Check arguments.")})
   return(dta)
 }
 
@@ -158,7 +159,7 @@ get_ildata_info <- function(X) {
 #' @name get_hud_il_data
 #' @param entityid Character string containing the 'fips_code' from get_hud_fmr_listcounties(...) or 'cbsa_code' from get_hud_fmr_listmetros(...).
 #' @param yr Character string indicating the year.
-#' @param hud_key Character string indicating your API key from HUD.
+#' @param hud_key Character string indicating your API key from HUD. Default is Sys.getenv("HUD_API_KEY").
 #' @details Provides income limit data at the County and MSA level from HUD.
 #' @return A list of data tables containing income limit data from HUD.
 #' @examples
@@ -177,13 +178,13 @@ get_ildata_info <- function(X) {
 #'                               yr = "2020",
 #'                               hud_key = hud_key)
 #' }
-get_hud_il_data <- function(entityid = "0100199999", yr, hud_key) {
-  pass <- "PASS"
-  pass[] <- check_args(pass = pass, argument = entityid, label = "entityid")
-  pass[] <- check_args(pass = pass, argument = yr, label = "year")
-  if (pass != "PASS") {
-    stop(pass)
+get_hud_il_data <- function(entityid, yr, hud_key = Sys.getenv("HUD_API_KEY")) {
+  pass <- as.list(environment()) %>%
+    lapply(FUN = check_args)
+  if (any(pass != "PASS")) {
+    stop(paste0(names(pass)[which(pass != "PASS")], ": ", pass[which(pass != "PASS")]))
   }
+
   dta <- tryCatch(expr = {
     url <- paste0("https://www.huduser.gov/hudapi/public/il/data/", entityid, "?year=", yr)
     get_response <- httr::GET(url = url, config = add_headers("Authorization" = paste0("Bearer ", hud_key)))
@@ -195,7 +196,7 @@ get_hud_il_data <- function(entityid = "0100199999", yr, hud_key) {
     }
     get_content
   },
-  error = function(e) {c("Error in get_hud_fmr_data(...): No data returned. check arguments.")})
+  error = function(e) {c("Error in get_hud_fmr_data(...): No data returned. Check arguments.")})
   return(dta)
 }
 
@@ -219,7 +220,7 @@ get_ilstatedata_info <- function(X) {
 #' @name get_hud_il_statedata
 #' @param entityid Character string containing the 'state_code' from get_hud_fmr_liststates(...).
 #' @param yr Character string indicating the year.
-#' @param hud_key Character string indicating your API key from HUD.
+#' @param hud_key Character string indicating your API key from HUD. Default is Sys.getenv("HUD_API_KEY").
 #' @details Provides income limit data at the State level from HUD.
 #' @return A list of data tables containing income limit data from HUD.
 #' @examples
@@ -234,13 +235,13 @@ get_ilstatedata_info <- function(X) {
 #'                                     yr = "2020",
 #'                                     hud_key = hud_key)
 #' }
-get_hud_il_statedata <- function(entityid = "AL", yr, hud_key) {
-  pass <- "PASS"
-  pass[] <- check_args(pass = pass, argument = entityid, label = "entityid")
-  pass[] <- check_args(pass = pass, argument = yr, label = "year")
-  if (pass != "PASS") {
-    stop(pass)
+get_hud_il_statedata <- function(entityid, yr, hud_key = Sys.getenv("HUD_API_KEY")) {
+  pass <- as.list(environment()) %>%
+    lapply(FUN = check_args)
+  if (any(pass != "PASS")) {
+    stop(paste0(names(pass)[which(pass != "PASS")], ": ", pass[which(pass != "PASS")]))
   }
+
   dta <- tryCatch(expr = {
     url <- paste0("https://www.huduser.gov/hudapi/public/il/statedata/", entityid, "?year=", yr)
     get_response <- httr::GET(url = url, config = add_headers("Authorization" = paste0("Bearer ", hud_key)))
@@ -252,7 +253,7 @@ get_hud_il_statedata <- function(entityid = "AL", yr, hud_key) {
     }
     get_content
   },
-  error = function(e) {c("Error in get_hud_fmr_data(...): No data returned. check arguments.")})
+  error = function(e) {c("Error in get_hud_fmr_data(...): No data returned. Check arguments.")})
   return(dta)
 }
 
@@ -276,19 +277,20 @@ get_hud_il_statedata <- function(entityid = "AL", yr, hud_key) {
 #'
 #' state_codes <- get_hud_fmr_listcounties(hud_key = hud_key)
 #' }
-get_hud_fmr_listcounties <- function(stateid = "AL", hud_key) {
-  pass <- "PASS"
-  pass[] <- check_args(pass = pass, argument = stateid, label = "stateid")
-  if (pass != "PASS") {
-    stop(pass)
+get_hud_fmr_listcounties <- function(stateid, hud_key = Sys.getenv("HUD_API_KEY")) {
+  pass <- as.list(environment()) %>%
+    lapply(FUN = check_args)
+  if (any(pass != "PASS")) {
+    stop(paste0(names(pass)[which(pass != "PASS")], ": ", pass[which(pass != "PASS")]))
   }
+
   dta <- tryCatch(expr = {
     get_content <- httr::GET(url = paste0("https://www.huduser.gov/hudapi/public/fmr/listCounties/", stateid),
                               config = add_headers("Authorization" = paste0("Bearer ", hud_key))) %>%
       httr::content(simplifyVector = TRUE) %>% data.table::as.data.table()
     get_content
   },
-  error = function(e) {c("Error in get_hud_fmr_listcounties(...): No data returned. check arguments.")})
+  error = function(e) {c("Error in get_hud_fmr_listcounties(...): No data returned. Check arguments.")})
   return(dta)
 }
 
@@ -312,14 +314,14 @@ get_hud_fmr_listcounties <- function(stateid = "AL", hud_key) {
 #'
 #' state_codes <- get_hud_fmr_liststates(hud_key = hud_key)
 #' }
-get_hud_fmr_liststates <- function(hud_key) {
+get_hud_fmr_liststates <- function(hud_key = Sys.getenv("HUD_API_KEY")) {
   dta <- tryCatch(expr = {
     get_content <- httr::GET(url = "https://www.huduser.gov/hudapi/public/fmr/listStates",
                              config = add_headers("Authorization" = paste0("Bearer ", hud_key))) %>%
       httr::content(simplifyVector = TRUE) %>% data.table::as.data.table()
     get_content
   },
-  error = function(e) {c("Error in get_hud_fmr_listcounties(...): No data returned. check arguments.")})
+  error = function(e) {c("Error in get_hud_fmr_listcounties(...): No data returned. Check arguments.")})
   return(dta)
 }
 
@@ -341,14 +343,14 @@ get_hud_fmr_liststates <- function(hud_key) {
 #'
 #' cbsa_codes <- get_hud_fmr_listmetros(hud_key = hud_key)
 #' }
-get_hud_fmr_listmetros <- function(hud_key) {
+get_hud_fmr_listmetros <- function(hud_key = Sys.getenv("HUD_API_KEY")) {
   dta <- tryCatch(expr = {
     get_content <- httr::GET(url = "https://www.huduser.gov/hudapi/public/fmr/listMetroAreas",
                              config = add_headers("Authorization" = paste0("Bearer ", hud_key))) %>%
       httr::content(simplifyVector = TRUE) %>% data.table::as.data.table()
     get_content
   },
-  error = function(e) {c("Error in get_hud_fmr_listcounties(...): No data returned. check arguments.")})
+  error = function(e) {c("Error in get_hud_fmr_listcounties(...): No data returned. Check arguments.")})
   return(dta)
 }
 

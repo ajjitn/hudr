@@ -4,14 +4,14 @@
 \alias{get_hud_fmr_data}
 \title{Get HUD Fair Market Rent data at the County or MSA Level from HUD.}
 \usage{
-get_hud_fmr_data(entityid = "METRO10180M10180", yr, hud_key)
+get_hud_fmr_data(entityid, yr, hud_key = Sys.getenv("HUD_API_KEY"))
 }
 \arguments{
 \item{entityid}{Character string containing the 'fips_code' from get_hud_fmr_listcounties(...) or 'cbsa_code' from get_hud_fmr_listmetros(...).}
 
 \item{yr}{Character string indicating the year.}
 
-\item{hud_key}{Character string indicating your API key from HUD.}
+\item{hud_key}{Character string indicating your API key from HUD. Default is Sys.getenv("HUD_API_KEY").}
 }
 \value{
 A list of data tables containing fair market rent data from HUD.

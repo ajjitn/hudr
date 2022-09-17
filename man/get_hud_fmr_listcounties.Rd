@@ -4,7 +4,7 @@
 \alias{get_hud_fmr_listcounties}
 \title{Get HUD List of County Codes data.}
 \usage{
-get_hud_fmr_listcounties(stateid = "AL", hud_key)
+get_hud_fmr_listcounties(stateid, hud_key = Sys.getenv("HUD_API_KEY"))
 }
 \arguments{
 \item{stateid}{Character string indicating the state.}

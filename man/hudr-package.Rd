@@ -6,7 +6,7 @@
 \alias{hudr-package}
 \title{Package that provides data from HUD.}
 \description{
-Provides functions to access data from the US Department of Housing and Urban Development <https://www.huduser.gov/portal/dataset/fmr-api.html>.
+Provides functions to access data from the US Department of Housing and Urban Development \url{https://www.huduser.gov/portal/dataset/fmr-api.html}.
 }
 \details{
 Provides data from the US Department of Housing and Urban Development (HUD).

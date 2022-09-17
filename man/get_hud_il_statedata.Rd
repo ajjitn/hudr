@@ -4,14 +4,14 @@
 \alias{get_hud_il_statedata}
 \title{Get HUD Income Limit data at the State Level from HUD.}
 \usage{
-get_hud_il_statedata(entityid = "AL", yr, hud_key)
+get_hud_il_statedata(entityid, yr, hud_key = Sys.getenv("HUD_API_KEY"))
 }
 \arguments{
 \item{entityid}{Character string containing the 'state_code' from get_hud_fmr_liststates(...).}
 
 \item{yr}{Character string indicating the year.}
 
-\item{hud_key}{Character string indicating your API key from HUD.}
+\item{hud_key}{Character string indicating your API key from HUD. Default is Sys.getenv("HUD_API_KEY").}
 }
 \value{
 A list of data tables containing income limit data from HUD.

@@ -4,7 +4,7 @@
 \alias{get_hud_fmr_listmetros}
 \title{Get HUD List of MSA Codes data.}
 \usage{
-get_hud_fmr_listmetros(hud_key)
+get_hud_fmr_listmetros(hud_key = Sys.getenv("HUD_API_KEY"))
 }
 \arguments{
 \item{hud_key}{Character string indicating your API key from HUD.}
